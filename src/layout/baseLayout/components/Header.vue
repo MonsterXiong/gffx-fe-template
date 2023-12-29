@@ -7,14 +7,14 @@
     </div>
     <div class="center" style="display: flex; flex-direction: column">
       <div class="top-wrapper">
-        <span :class="{ active: currentActiveMenu == item.id }" v-for="item in menuList" :key="item.id" @click="onMenuItemClick(item)">
-          <span :class="`iconfont ${item.icon}`" />{{ item.title }}</span
+        <span :class="{ active: currentActiveMenu == item.menuCode }" v-for="item in menuList" :key="item.menuCode" @click="onMenuItemClick(item)">
+          <span :class="`iconfont ${item.icon}`" />{{ item.name }}</span
         >
       </div>
       <div class="bottom-wrapper">
         <span :class="{ active: currentActiveSubMenu == item.eventParams }" v-for="(item, index) in currentSubMenuList" :key="index" @click="onClick(item)">
           <span :class="`iconfont ${item.icon}`" />
-          {{ item.title }}
+          {{ item.name }}
         </span>
       </div>
     </div>
@@ -28,27 +28,24 @@
 <script>
 // import Logout from './Logout'
 import Setting from './Setting.vue'
-// import configData from '@/config'
-import { menuData, MENU_CODE, MENU_TYPE, EVENT_TYPE } from '../index'
+import configData from '@/utils/config'
+import { menuData, MENU_CODE } from '../index'
+import { EMIT_TYPE,VIEW_TYPE} from '@/common/constant'
 export default {
   data() {
     return {
-      // configData,
-      configData:{
-        systemName: '系统名称',
-
-      },
+      configData,
       menuData,
-      currentActiveMenu: MENU_CODE.FIRST_MENU,
+      currentActiveMenu: MENU_CODE.FE_WORKSPACE,
       currentActiveSubMenu: '',
     }
   },
   computed: {
     menuList() {
-      return this.menuData.filter((item) => item.type == MENU_TYPE.MENU)
+      return this.menuData.filter((item) => item.type == VIEW_TYPE.VIEW_MODULE)
     },
     currentSubMenuList() {
-      return this.menuData.filter((item) => item.type == MENU_TYPE.SUB_MENU && item.parentId == this.currentActiveMenu)
+      return this.menuData.filter((item) => item.type == VIEW_TYPE.VIEW_PAGE && item.parent == this.currentActiveMenu)
     },
   },
   watch: {
@@ -61,15 +58,23 @@ export default {
   },
   methods: {
     onMenuItemClick(row) {
-      this.currentActiveMenu = row.id
+      if(row.disabled){
+        return this.$message.info('正在开发中')
+      }
+      this.currentActiveMenu = row.menuCode
     },
-    onClick(menu) {
-      if (menu.eventType == EVENT_TYPE.PAGE) {
-        if (this.$route.fullPath != menu.eventParams) {
-          return this.$router.push(menu.eventParams)
-        }
-      } else {
-        this.$emitter.emit(menu.eventParams)
+    onClick(menuItem) {
+      const {eventType,eventParams} = menuItem
+      console.log(eventType,eventParams);
+      if(!eventParams){
+        return
+      }
+      if (eventType != EMIT_TYPE.PAGE) {
+        return this.$emitter.emit(eventParams)
+      }
+      console.log(eventParams,'eventParams');
+      if (this.$route.fullPath != eventParams) {
+        return this.$router.push(eventParams)
       }
     },
   },

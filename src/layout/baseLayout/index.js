@@ -1,51 +1,43 @@
-// import { routesConstant } from '@/router/routeConstant'
-// import EventTypes from '@/common/eventTypes'
+import { EMIT_TYPE, VIEW_TYPE } from '@/common/constant'
+import routesConstant from '@/router/routesConstant'
 
 const MENU_CODE = {
-  FIRST_MENU: 'jgtxyzzh',
-  SECOND_MENU: 'txnlyzzh',
-  THIRD_MENU: 'nljtyzzh',
+  FE_WORKSPACE: 'fe-workspace',
 }
 
-const EVENT_TYPE = {
-  DIALOG: 'dialog',
-  EVENT: 'event',
-  PAGE: 'page',
-}
-
-const MENU_TYPE = {
-  MENU: 'menu',
-  SUB_MENU: 'subMenu',
+const MENU_ITEM_CODE = {
+  HOME_NAV:'home-nav',
+  OFFLINE_DOC:'offline-doc',
 }
 
 const menuData = [
   {
-    id: MENU_CODE.FIRST_MENU,
-    title: '精干体系构建',
+    menuCode: MENU_CODE.FE_WORKSPACE,
+    name: '前端工作台',
+    parent: null,
     icon: 'icon-a-ziyuan22',
-    type: MENU_TYPE.MENU,
+    type: VIEW_TYPE.VIEW_MODULE,
+    disabled: false,
   },
   {
-    id: MENU_CODE.SECOND_MENU,
-    title: '体系能力验证综合',
-    icon: 'icon-tongji-copy-copy',
-    type: MENU_TYPE.MENU,
-  },
-  {
-    id: MENU_CODE.THIRD_MENU,
-    title: '能力阶梯验证综合',
-    icon: 'icon-fenxi',
-    type: MENU_TYPE.MENU,
-  },
-  {
-    parentId: MENU_CODE.FIRST_MENU,
-    title: '首页',
+    menuCode: MENU_ITEM_CODE.HOME_NAV,
+    name: '首页导航',
+    parent: MENU_CODE.FE_WORKSPACE,
     icon: 'icon-shouye',
-    eventType: EVENT_TYPE.PAGE,
-    // eventParams: routesConstant.SYSTEM_STRUCT.path,
-    type: MENU_TYPE.SUB_MENU,
+    type: VIEW_TYPE.VIEW_PAGE,
+    eventType: EMIT_TYPE.PAGE,
+    eventParams: routesConstant.WELCOME.path,
+  },
+  {
+    menuCode: MENU_ITEM_CODE.OFFLINE_DOC,
+    name: '离线文档',
+    parent: MENU_CODE.FE_WORKSPACE,
+    icon: 'icon-shouye',
+    type: VIEW_TYPE.VIEW_PAGE,
+    eventType: EMIT_TYPE.PAGE,
+    eventParams: routesConstant.OFFLINE_DOC.path,
   },
 
 ]
 
-export { MENU_CODE, EVENT_TYPE, MENU_TYPE, menuData }
+export { MENU_CODE, menuData }

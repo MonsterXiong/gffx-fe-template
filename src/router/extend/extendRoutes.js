@@ -1,8 +1,12 @@
-import routesConstant from './extendRouteConstant'
+import extendRouteConstant from './extendRouteConstant'
 const routes = [
   {
-    ...routesConstant.PROJECT,
-    component: () => import('@/pages/project/Project.vue'),
+    ...extendRouteConstant.WELCOME,
+    component: () => import('@/pages/welcome/Welcome.vue'),
+  },
+  {
+    ...extendRouteConstant.OFFLINE_DOC,
+    component: () => import('@/pages/offlineDoc/OfflineDoc.vue'),
   },
 ]
 
