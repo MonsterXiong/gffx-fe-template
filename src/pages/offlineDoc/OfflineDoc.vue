@@ -1,15 +1,12 @@
 <template>
   <div>
-    首页导航
+    离线文档
   </div>
 </template>
 
 <script>
   export default {
-    methods: {
-      onClick() {
-      }
-    },
+
   }
 </script>
 
