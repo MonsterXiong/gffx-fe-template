@@ -5,7 +5,6 @@ import globalComponents from '@/baseComponents'
  */
 export function setupGlobalComponents(Vue) {
     Object.keys(globalComponents).forEach(key => {
-      console.log(key,globalComponents[key]);
       Vue.component(key, globalComponents[key]);
     });
 }
